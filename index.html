@@ -212,7 +212,10 @@ const MODS=[
  grammar:['Adjective declension – advanced practice','Relative clauses','Konjunktiv II (würde, könnte, hätte, wäre)','Passive voice – introduction','Plusquamperfekt – introduction','Reflexive verbs with prepositions','Infinitive clauses with zu','Subordinate clauses with obwohl, damit, während','Verbs with fixed prepositions','Indirect questions','Präteritum and Perfekt revision']},
 {id:6,lv:'B1.2',name:'Intermediate',
  topics:['Consumer behaviour and shopping habits','Complaints and making formal requests','Describing and defining things','Agreeing and disagreeing','Discussions and debates','Environment and climate protection','Health and healthy lifestyles','Politics and society','Culture and traditions in Germany','Travelling and transportation','Future plans and goals','Solving everyday and workplace problems','Formal and informal communication','Writing structured letters and emails','Preparing for the DTZ B1 examination'],
- grammar:['Plusquamperfekt','Futur I','Passive voice','Konjunktiv II – polite requests and hypothetical situations','Complex subordinate clauses','Connectors: trotzdem, deshalb, deswegen, obwohl','Conjunctions: bevor, nachdem, während, seitdem','Relative clauses – advanced practice','Adjective declension revision','Prepositions with genitive','Sentence structure and word order','Grammar revision for B1']}
+ grammar:['Plusquamperfekt','Futur I','Passive voice','Konjunktiv II – polite requests and hypothetical situations','Complex subordinate clauses','Connectors: trotzdem, deshalb, deswegen, obwohl','Conjunctions: bevor, nachdem, während, seitdem','Relative clauses – advanced practice','Adjective declension revision','Prepositions with genitive','Sentence structure and word order','Grammar revision for B1']},
+{id:7,lv:'Bonus',name:'Extras',
+ topics:['Post office and parcels','Phone, internet and mobile contracts','Payslip, tax and social insurance','Lost property, police and emergencies','Pets and animals','Numbers above 100, ordinals and years'],
+ grammar:['Demonstratives: dieser, jener, welcher, was für ein','Indefinite pronouns: man, jemand, niemand, etwas, irgend-','um … zu, damit, ohne … zu, statt … zu in depth','je … desto, als ob, ohne dass, statt dass','lassen and sich lassen','Word formation: compounds, noun endings, prefixes','Modal particles: doch, mal, ja, eben, denn']}
 ];
 const chaptersOf=m=>m.topics.map((t,i)=>({id:'m'+m.id+'-t'+(i+1),title:t,kind:'Topic',no:i+1})).concat(m.grammar.map((t,i)=>({id:'m'+m.id+'-g'+(i+1),title:t,kind:'Grammar',no:m.topics.length+i+1})));
 
@@ -664,6 +667,46 @@ C['m6-g11']={l:["**Main clause**: the verb is in **position 2**: *Ich lerne heut
 C['m6-g12']={l:["Checklist for **B1**. **Verbs**: Präsens, Perfekt, Präteritum, Plusquamperfekt, Futur I; Konjunktiv II; Passive; modal verbs; separable and reflexive verbs; imperative.","**Cases and prepositions**: Akkusativ, Dativ, Genitiv; two-way prepositions; verbs with prepositions; pronominal adverbs (*darauf, worüber*).","**Clauses**: main and subordinate clauses (**weil, dass, wenn, als, ob, obwohl, damit, bevor, nachdem, während, seitdem**), relative clauses, **zu-infinitives** and **um … zu**, indirect questions.","**Nouns and adjectives**: gender, plurals, adjective declension, comparatives and superlatives, noun endings **-ung, -heit, -keit**. Practise with the Verben trainer in Mixed mode, the Nomen article and plural quizzes, the module exams and the A1, A2 and B1 level tests."],
  w:["die Wiederholung|revision","der Fehler|mistake","üben|to practise","die Regel|rule","die Ausnahme|exception","beherrschen|to master"],
  q:["Which tense do you use for the earlier of two past events?|Plusquamperfekt|Futur I|Präsens","“obwohl” introduces…|a concession|a reason|a purpose","“beherrschen” (a skill) means…|to master|to disturb|to forget"]};
+
+C['m7-t1']={l:["At the post office (**die Postfiliale**): **Ich möchte einen Brief / ein Paket nach … schicken. · Wie viel kostet das Porto? · Was ist drin?** (what’s inside?) **· Ich möchte eine Briefmarke. · Einschreiben, bitte.** (registered mail)","Words: **der Brief** (letter), **das Paket** (parcel), **die Briefmarke** (stamp), **das Porto** (postage), **die Sendungsverfolgung** (tracking), **der Absender / der Empfänger**, **die Postleitzahl**, **die Packstation** (parcel locker).","Missed delivery: **Der Paketbote war nicht da. · Die Benachrichtigungskarte liegt im Briefkasten. · Ich möchte mein Paket abholen. · Bitte bringen Sie Ihren Ausweis mit.** *Mein Paket ist nicht angekommen. Können Sie die Sendung verfolgen?*","Address format: *Max Mustermann, Hauptstraße 12, 10115 Berlin* – name, street and number, then postcode and city."],
+ w:["das Paket|parcel","die Briefmarke|stamp","das Porto|postage","das Einschreiben|registered mail","die Packstation|parcel locker","abholen|to collect"],
+ q:["Postage is…|das Porto|das Paket|die Marke","To collect a parcel = ___|abholen|abschicken|abgeben","“Einschreiben” is…|registered mail|a stamp|a postcode"]};
+C['m7-t2']={l:["Contract words: **der Mobilfunkvertrag** (mobile contract), **die Prepaid-Karte**, **der Tarif** (plan), **die Laufzeit** (term, e.g. 24 months), **die Kündigungsfrist**, **die Grundgebühr** (basic fee), **das Datenvolumen** (data allowance), **die Flatrate.**","Ask: **Was kostet der Tarif pro Monat? · Wie lange ist die Mindestlaufzeit? · Ist das Datenvolumen unbegrenzt? · Gibt es versteckte Kosten?** (hidden costs) **· Kann ich den Vertrag monatlich kündigen?**","Problems: **Die Verbindung ist schlecht. · Ich habe kein Netz. · Meine Rechnung ist zu hoch. · Ich möchte den Anbieter wechseln.** (change provider) *Die Hotline ist ständig besetzt.* Never give your PIN or passwords to anyone on the phone.","Set-up: **die SIM-Karte, die PIN, der Router, das WLAN-Passwort, der Techniker, der Anschluss** (connection), **die Störung** (outage)."],
+ w:["der Tarif|plan, tariff","die Laufzeit|contract term","die Grundgebühr|basic fee","das Datenvolumen|data allowance","der Anbieter|provider","die Störung|outage, fault"],
+ q:["Die Laufzeit of a contract is its…|term|price|provider","“Ich habe kein Netz” means…|I have no signal|I have no net curtain|I have no phone","To change provider you say…|den Anbieter wechseln|den Tarif kochen|die Störung kaufen"]};
+C['m7-t3']={l:["Payslip (**die Gehaltsabrechnung**): **brutto** (gross) minus **Abzüge** (deductions) gives **netto** (net). Deductions: **Lohnsteuer** (income tax) and **Sozialversicherung** (health, pension, unemployment and long-term-care insurance).","Tax words: **die Steuernummer, die Steuerklasse** (tax class), **die Steuererklärung** (tax return), **das Finanzamt, die Erstattung** (refund), **die Nachzahlung** (back payment). Rules and deadlines change, so check with the **Finanzamt** or a **Steuerberater** (tax adviser).","Employment words: **der Arbeitsvertrag, die Probezeit, das Bruttogehalt, das Nettogehalt, der Urlaubsanspruch.** *Mein Bruttogehalt beträgt 3.000 Euro im Monat, netto bleibt weniger.* (invented example figures)","Ask HR: **Können Sie mir die Abrechnung erklären? · Was bedeutet dieser Abzug? · Bis wann muss ich … abgeben?**"],
+ w:["brutto|gross","netto|net","die Steuer|tax","die Steuerklasse|tax class","die Steuererklärung|tax return","die Gehaltsabrechnung|payslip"],
+ q:["“netto” means…|after deductions|before deductions|per hour","A payslip is…|eine Gehaltsabrechnung|eine Steuererklärung|ein Arbeitsvertrag","“brutto” means…|gross|net|monthly"]};
+C['m7-t4']={l:["Emergency numbers: **112** (fire brigade and ambulance) and **110** (police). Say: **Hilfe! · Es brennt! · Es gab einen Unfall. · Ich brauche einen Krankenwagen.** Answer the questions: *Wo sind Sie? Wie heißen Sie? Wie viele Verletzte gibt es?*","Lost property: **das Fundbüro.** **Ich habe meine Tasche verloren. · Ich habe meinen Schlüssel im Zug vergessen. · Hat jemand ein Handy abgegeben?** Describe it: **Farbe, Größe, Marke, Inhalt** (contents).","At the police: **Ich möchte eine Anzeige erstatten.** (report a crime) **· Mir wurde die Geldbörse gestohlen. · Ich bin überfallen worden. · Ich brauche eine Bescheinigung für die Versicherung.** *Wann und wo ist das passiert?*","Words: **der Diebstahl** (theft), **der Dieb, die Feuerwehr, der Notarzt, der Krankenwagen, der Zeuge / die Zeugin** (witness), **der Schaden.**"],
+ w:["das Fundbüro|lost property office","der Diebstahl|theft","die Anzeige|report (to police)","der Krankenwagen|ambulance","die Feuerwehr|fire brigade","verlieren|to lose"],
+ q:["The police number is…|110|112|115","A lost property office is…|das Fundbüro|das Bürgeramt|die Feuerwehr","Mir wurde die Geldbörse ___. (stolen)|gestohlen|gestehlt|stehlen"]};
+C['m7-t5']={l:["Pets: **der Hund, die Katze, der Vogel, der Fisch, das Kaninchen** (rabbit), **das Meerschweinchen, das Pferd.** *Ich habe einen Hund. Er heißt Max und ist drei Jahre alt. Er spielt gern im Park.*","Care: **füttern** (feed), **Gassi gehen** (walk the dog), **der Tierarzt** (vet), **die Impfung, das Futter, die Leine** (lead), **die Hundesteuer** (dog tax). *Ich muss mit dem Hund zum Tierarzt.*","Rules: **Haustiere erlaubt / nicht erlaubt** in rented flats; **Leinenpflicht** (leash required). *Dürfen wir einen Hund in der Wohnung halten?*","Wild animals: **der Fuchs, das Reh, der Igel, der Bär, der Wolf, der Adler, die Biene.**"],
+ w:["das Haustier|pet","füttern|to feed","der Tierarzt|vet","die Leine|lead, leash","das Futter|animal food","Gassi gehen|to walk the dog"],
+ q:["A vet is…|ein Tierarzt|ein Zahnarzt|ein Hausarzt","“füttern” means…|to feed (an animal)|to cook|to wash","Ich gehe mit dem Hund ___.|Gassi|Haustier|Futter"]};
+C['m7-t6']={l:["Big numbers: **100** hundert · **101** hunderteins · **200** zweihundert · **1.000** tausend · **2.500** zweitausendfünfhundert · **1.000.000** eine Million. Germans use a **dot** for thousands and a **comma** for decimals: *1.250,50 €* is *tausendzweihundertfünfzig Euro fünfzig*.","Years: **1999** neunzehnhundertneunundneunzig · **2026** zweitausendsechsundzwanzig. Say *im Jahr 2026* or just *2026*; *seit 2020*; *vor drei Jahren*.","Ordinals: **der erste, zweite, dritte, vierte, fünfte, sechste, siebte, achte, neunte, zehnte … neunzehnte** (add **-te**), from 20: **zwanzigste, einundzwanzigste** (add **-ste**). Irregular: **erste, dritte, siebte, achte.** *Heute ist der dritte November. Am ersten Mai.*","Dates and parts: **am 3.11.** is *am dritten November*; **die Hälfte** (half), **ein Drittel, ein Viertel**; **50 Prozent.**"],
+ w:["tausend|thousand","eine Million|one million","der erste|the first","der dritte|the third","die Hälfte|half","Prozent|per cent"],
+ q:["1.000 in German is…|tausend|hundert|zehntausend","“der dritte” is the…|third|first|fifth","2026 is read as…|zweitausendsechsundzwanzig|zwanzigsechsundzwanzig|zweihundertsechsundzwanzig"]};
+C['m7-g1']={l:["**dieser / diese / dieses** (this) declines like **der**: Nom **dieser, diese, dieses, diese** · Akk **diesen, diese, dieses, diese** · Dat **diesem, dieser, diesem, diesen** · Gen **dieses, dieser, dieses, dieser**. *Dieser Mann ist mein Chef. Ich nehme dieses Buch.*","**jener** (that over there) sounds formal or literary. In speech use **der / die / das da** or **dort**: *Das Haus da gehört meinem Onkel.* **solcher** (such): *Solche Fehler passieren.*","**welcher / welche / welches** (which) also declines like der: *Welchen Tee möchten Sie? Welche Farbe gefällt dir?* **was für ein(e)** (what kind of) declines like *ein* and does not ask for a choice: *Was für ein Auto hast du?* — *Ein kleines rotes.*","Pointing: **dieser hier, der da, den hier.** *Ich nehme den hier.* The pronoun **der / die / das** can stress: *Den kenne ich nicht.* (I don’t know him)"],
+ w:["dieser|this","jener|that (over there)","solcher|such","welcher|which","was für ein|what kind of","da|there"],
+ q:["Ich nehme ___ Buch. (this)|dieses|dieser|diesen","___ Tee möchten Sie? (which, masc. Akk)|Welchen|Welcher|Welches","“Was für ein Auto hast du?” asks…|what kind of car|which car of these two|how many cars"]};
+C['m7-g2']={l:["**man** (one, you, people) takes the er-form: *Man darf hier nicht parken.* **jemand** (someone) and **niemand** (no one): *Ist jemand da? Niemand hat angerufen.* Akk **jemanden / niemanden**, Dat **jemandem / niemandem**.","**etwas** (something), **nichts** (nothing), **alles** (everything) with a capitalised adjective: *etwas Neues, nichts Besonderes, alles Gute.* **viel / wenig**: *viel Zeit, wenig Geld.*","**irgend-** (some … or other): **irgendwo** (somewhere), **irgendwann** (sometime), **irgendwie** (somehow), **irgendjemand, irgendetwas**: *Hast du irgendwo meinen Schlüssel gesehen?* Negatives: **nirgends** (nowhere), **nie / niemals**, **keiner / keine / keines** (none).","**jeder, alle, manche, einige, mehrere, beide**: *Jeder Mensch ist anders. Alle Kinder spielen. Manche Leute mögen Regen.* **jeder** is singular, **alle** is plural."],
+ w:["man|one, you","jemand|someone","niemand|no one","irgendwo|somewhere","nirgends|nowhere","manche|some"],
+ q:["___ darf hier nicht parken. (one)|Man|Mann|Jemand","Hast du ___ meinen Schlüssel gesehen? (somewhere)|irgendwo|nirgends|überall","“niemand” means…|no one|someone|everyone"]};
+C['m7-g3']={l:["**um … zu** gives a **purpose** (in order to) when **both parts have the same subject**: *Ich lerne Deutsch, um in Deutschland zu arbeiten. · Er geht zum Bäcker, um Brot zu kaufen. · Wir fahren nach Berlin, um Freunde zu besuchen.*","Structure: **main clause + comma + um + rest + zu + infinitive**. **zu** stands directly before the infinitive; with separable verbs it goes between prefix and verb: *Ich stelle einen Wecker, um früh aufzustehen. Er ruft an, um einen Termin zu vereinbaren.*","**damit** is used when the **subjects differ**, and the verb goes last: *Ich spreche langsam, damit du mich verstehst.* Compare: *Ich lerne, um die Prüfung zu bestehen.* (same subject) with *Ich lerne mit dir, damit du die Prüfung bestehst.* (different subjects)","Negative and related forms: **um … nicht zu**: *Ich gehe früh los, um nicht zu spät zu kommen.* · **ohne … zu** (without): *Er ging, ohne zu grüßen.* · **(an)statt … zu** (instead of): *Statt zu lernen, schläft sie.* · Question **Wozu?** (what for?) — *Wozu lernst du Deutsch? — Um hier zu arbeiten.*"],
+ w:["um … zu|in order to","damit|so that","wozu|what for","der Zweck|purpose","ohne … zu|without doing","statt … zu|instead of doing"],
+ q:["Ich lerne Deutsch, ___ in Deutschland zu arbeiten.|um|damit|dass","Ich spreche langsam, ___ du mich verstehst.|damit|um|weil","Wozu lernst du Deutsch? — ___ hier zu arbeiten.|Um|Weil|Damit","Ich stelle einen Wecker, um früh ___.|aufzustehen|zu aufstehen|aufstehen"]};
+C['m7-g4']={l:["**je … desto / umso** + comparative (the more … the more): *Je mehr du übst, desto besser wirst du. Je älter ich werde, umso ruhiger bin ich.* The **je**-clause has the verb last; after **desto** the verb is in position 2.","**als ob / als wenn** (as if) + Konjunktiv II: *Er tut so, als ob er alles wüsste. Es sieht aus, als ob es regnen würde.* Variant: *Es sieht aus, als würde es regnen.*","**ohne dass / (an)statt dass** when the subjects differ: *Er ging, ohne dass jemand es merkte. Statt dass er hilft, sitzt er nur da.* Same subject → **ohne … zu / statt … zu**.","More: **sodass** (so that, result): *Es regnete stark, sodass wir zu Hause blieben.* · **falls** (in case): *Falls du Zeit hast, ruf mich an.* · **indem** (by doing): *Man lernt Deutsch, indem man viel spricht.*"],
+ w:["je … desto|the more … the more","als ob|as if","ohne dass|without (different subject)","anstatt dass|instead of (different subject)","falls|in case","indem|by (doing)"],
+ q:["Je mehr du übst, ___ besser wirst du.|desto|dass|je","Er tut so, als ob er alles ___. (wissen)|wüsste|weiß|wusste","Man lernt Deutsch, ___ man viel spricht.|indem|damit|obwohl"]};
+C['m7-g5']={l:["**lassen** has three main meanings. 1) **to allow**: *Er lässt die Kinder spielen. Lass mich in Ruhe!* 2) **to leave behind**: *Ich lasse den Schlüssel zu Hause.* 3) **to have something done**: *Ich lasse mein Auto reparieren. Sie lässt sich die Haare schneiden.*","Forms: ich lasse, du lässt, er lässt, wir lassen, ihr lasst, sie lassen · Präteritum **ließ** · Perfekt **hat gelassen** (main verb) or **hat … lassen** with another verb (double infinitive): *Ich habe den Schlüssel gelassen. Ich habe mein Auto reparieren lassen.*","**sich lassen + infinitive** can replace the passive with *können*: *Das lässt sich leicht erklären.* (= Das kann leicht erklärt werden.) *Die Tür lässt sich nicht öffnen.*","Imperative: **Lass / Lasst / Lassen Sie…**: *Lass uns gehen! Lassen Sie mich bitte durch.*"],
+ w:["lassen|to let, leave","reparieren lassen|to have repaired","sich lassen|can be …ed","Lass uns…|let’s…","in Ruhe lassen|to leave alone","zurücklassen|to leave behind"],
+ q:["Ich ___ mein Auto reparieren. (have done)|lasse|lass|lässt","Er ___ die Kinder spielen. (lets)|lässt|lasst|lasse","Perfekt: Ich habe mein Auto reparieren ___.|lassen|gelassen|lasse"]};
+C['m7-g6']={l:["**Compound nouns**: German joins nouns, and the **last part decides gender and plural**: *der Kühlschrank (kühl + der Schrank), die Haustür (das Haus + die Tür), das Wohnzimmer.* Often a joining letter appears: **-s-, -n-, -e-**: *die Arbeit → der Arbeitsvertrag, die Küche → der Küchentisch.*","Noun endings: **-ung, -heit, -keit, -schaft, -ion, -tät** → all **die** (*die Zeitung, die Freiheit, die Möglichkeit, die Freundschaft, die Information, die Qualität*). **-er, -ist, -ismus** → usually **der**. **-chen, -lein** → **das** (*das Mädchen*).","Verb to noun: **das Essen, das Lernen** (infinitive as neuter noun) · **der Anruf** (anrufen) · **die Hilfe** (helfen) · **der Besuch** (besuchen) · **die Entscheidung** (entscheiden).","Adjective endings: **un-** (opposite): *unfreundlich* · **-los** (without): *arbeitslos* · **-voll** (full of): *sinnvoll* · **-bar** (able to be): *machbar* · **-lich / -ig**: *freundlich, wichtig*"],
+ w:["das Kompositum|compound noun","die Endung|ending","die Vorsilbe|prefix","die Nachsilbe|suffix","zusammengesetzt|compound","das Wort|word"],
+ q:["In a compound noun the gender comes from the…|last part|first part|longest part","Nouns ending in -ung are…|die|der|das","arbeitslos means…|without work|full of work|able to work"]};
+C['m7-g7']={l:["**Modal particles** colour a sentence and have no direct translation. They are very common in speech: **doch, mal, ja, eben, halt, denn, eigentlich, schon, wohl, aber, bloß.**","**mal** softens a request: *Komm mal her! Kannst du mir mal helfen?* · **doch** encourages or contradicts: *Komm doch mit! Das ist doch klar!* · **ja** = as you know, or surprise: *Das ist ja toll!* · **denn** shows interest in questions: *Wie geht’s dir denn?*","**eben / halt** = that’s just how it is: *Das ist eben so.* · **eigentlich** = actually: *Was machst du eigentlich beruflich?* · **schon** = reassurance: *Das wird schon klappen.* · **aber** = surprise: *Das ist aber schön!*","Use them in informal speech and leave them out of formal writing. They stand in the middle of the sentence, after the verb and pronouns: *Kannst du mir bitte mal helfen?*"],
+ w:["doch|after all, but","mal|just, once","ja|you know, indeed","eben|just (that’s how it is)","halt|just (colloquial)","eigentlich|actually"],
+ q:["Kannst du mir ___ helfen? (softens the request)|mal|ja|eben","“Komm doch mit!” sounds…|encouraging|angry|formal","Modal particles are mostly used in…|informal speech|formal letters|legal texts"]};
 
 const NOUNS=(`m|Vater|Väter|father|Family
 f|Mutter|Mütter|mother|Family
@@ -1190,7 +1233,52 @@ f|Überschrift|Überschriften|headline|Writing and exam|6
 f|Regel|Regeln|rule|Writing and exam|6
 f|Ausnahme|Ausnahmen|exception|Writing and exam|6
 m|Fehler|Fehler|mistake|Writing and exam|6
-f|Wiederholung|Wiederholungen|revision|Writing and exam|6`).split('\n').map(l=>{const [g,w,pl,en,tp,mm]=l.split('|');return{k:w,g,art:{m:'der',f:'die',n:'das'}[g],w,pl,en,tp,m:+(mm||1)}});
+f|Wiederholung|Wiederholungen|revision|Writing and exam|6
+n|Paket|Pakete|parcel|Post|7
+f|Briefmarke|Briefmarken|stamp|Post|7
+f|Packstation|Packstationen|parcel locker|Post|7
+f|Sendung|Sendungen|shipment, item|Post|7
+m|Paketbote|Paketboten|parcel courier|Post|7
+m|Tarif|Tarife|plan, tariff|Phone|7
+f|Laufzeit|Laufzeiten|contract term|Phone|7
+f|Grundgebühr|Grundgebühren|basic fee|Phone|7
+n|Datenvolumen|–|data allowance|Phone|7
+m|Anbieter|Anbieter|provider|Phone|7
+f|Störung|Störungen|outage, fault|Phone|7
+f|SIM-Karte|SIM-Karten|SIM card|Phone|7
+m|Router|Router|router|Phone|7
+f|Gehaltsabrechnung|Gehaltsabrechnungen|payslip|Pay and tax|7
+f|Steuerklasse|Steuerklassen|tax class|Pay and tax|7
+f|Steuererklärung|Steuererklärungen|tax return|Pay and tax|7
+f|Sozialversicherung|Sozialversicherungen|social insurance|Pay and tax|7
+m|Steuerberater|Steuerberater|tax adviser|Pay and tax|7
+n|Fundbüro|Fundbüros|lost property office|Emergency|7
+m|Diebstahl|Diebstähle|theft|Emergency|7
+m|Dieb|Diebe|thief|Emergency|7
+m|Krankenwagen|Krankenwagen|ambulance|Emergency|7
+f|Feuerwehr|–|fire brigade|Emergency|7
+m|Notarzt|Notärzte|emergency doctor|Emergency|7
+m|Zeuge|Zeugen|witness|Emergency|7
+f|Anzeige|Anzeigen|report to the police, advertisement|Emergency|7
+n|Haustier|Haustiere|pet|Pets|7
+m|Tierarzt|Tierärzte|vet|Pets|7
+f|Leine|Leinen|lead, leash|Pets|7
+n|Futter|–|animal food|Pets|7
+n|Kaninchen|Kaninchen|rabbit|Pets|7
+n|Pferd|Pferde|horse|Pets|7
+m|Vogel|Vögel|bird|Pets|7
+m|Fuchs|Füchse|fox|Pets|7
+f|Biene|Bienen|bee|Pets|7
+f|Million|Millionen|million|Numbers|7
+n|Prozent|Prozente|per cent|Numbers|7
+f|Hälfte|Hälften|half|Numbers|7
+n|Drittel|Drittel|third|Numbers|7
+n|Jahrhundert|Jahrhunderte|century|Numbers|7
+n|Wort|Wörter|word|Words|7
+n|Kompositum|Komposita|compound noun|Words|7
+f|Vorsilbe|Vorsilben|prefix|Words|7
+f|Nachsilbe|Nachsilben|suffix|Words|7
+f|Endung|Endungen|ending|Words|7`).split('\n').map(l=>{const [g,w,pl,en,tp,mm]=l.split('|');return{k:w,g,art:{m:'der',f:'die',n:'das'}[g],w,pl,en,tp,m:+(mm||1)}});
 const NBY={};NOUNS.forEach(n=>NBY[n.k]=n);
 const TOPICS=['All'].concat(Array.from(new Set(NOUNS.map(n=>n.tp))));
 
@@ -1229,6 +1317,10 @@ const S5=(p,r,e,a)=>Object.assign(sep(p,r,e,a),{M:5});
 const S6=(p,r,e,a)=>Object.assign(sep(p,r,e,a),{M:6});
 const haltenR=strong('halten','to hold','hielt','gehalten',{du:'hältst',er:'hält'});
 const tragenR=strong('tragen','to carry','trug','getragen',{du:'trägst',er:'trägt'});
+const nehmenR=strong('nehmen','to take','nahm','genommen',{du:'nimmst',er:'nimmt'});
+const denkenR=irr('denken','to think','denke denkst denkt denken denkt denken','dachte dachtest dachte dachten dachtet dachten','gedacht');
+const bringenR=irr('bringen','to bring','bringe bringst bringt bringen bringt bringen','brachte brachtest brachte brachten brachtet brachten','gebracht');
+const S7=(p,r,e,a)=>Object.assign(sep(p,r,e,a),{M:7});
 const habenR=irr('haben','to have','habe hast hat haben habt haben','hatte hattest hatte hatten hattet hatten','gehabt');
 const wachsenR=strong('wachsen','to grow','wuchs','gewachsen',{du:'wächst',er:'wächst',aux:'sein'});
 const haengenR=strong('hängen','to hang','hing','gehangen');
@@ -1437,6 +1529,53 @@ const VERBS=[
  S6('auf',gebenR,'to give up','haben'),
  S6('aus',weak('probieren','to try',{pp:'probiert'}),'to try out','haben'),
  S6('zusammen',weak('fassen','to grasp'),'to summarise','haben'),
+ irr('backen','to bake','backe bäckst bäckt backen backt backen','backte backtest backte backten backtet backten','gebacken','haben',{M:7}),
+ strong('beginnen','to begin','begann','begonnen',{x:{M:7}}),
+ strong('bieten','to offer','bot','geboten',{x:{M:7}}),
+ strong('binden','to tie','band','gebunden',{x:{M:7}}),
+ strong('brechen','to break','brach','gebrochen',{du:'brichst',er:'bricht',x:{M:7}}),
+ Object.assign({},fallenR,{M:7}),
+ Object.assign({},fangen,{M:7}),
+ strong('gelten','to be valid','galt','gegolten',{du:'giltst',er:'gilt',x:{M:7}}),
+ strong('genießen','to enjoy','genoss','genossen',{x:{M:7}}),
+ strong('geschehen','to happen','geschah','geschehen',{aux:'sein',x:{M:7}}),
+ strong('gießen','to pour, to water','goss','gegossen',{x:{M:7}}),
+ Object.assign({},haltenR,{M:7}),
+ strong('heben','to lift','hob','gehoben',{x:{M:7}}),
+ strong('klingen','to sound','klang','geklungen',{x:{M:7}}),
+ strong('lassen','to let, to leave','ließ','gelassen',{du:'lässt',er:'lässt',x:{M:7}}),
+ strong('lügen','to lie, to tell a lie','log','gelogen',{x:{M:7}}),
+ irr('nennen','to name, to call','nenne nennst nennt nennen nennt nennen','nannte nanntest nannte nannten nanntet nannten','genannt','haben',{M:7}),
+ strong('raten','to advise, to guess','riet','geraten',{du:'rätst',er:'rät',x:{M:7}}),
+ Object.assign({},rufen,{M:7}),
+ strong('scheinen','to seem, to shine','schien','geschienen',{x:{M:7}}),
+ strong('schlagen','to hit','schlug','geschlagen',{du:'schlägst',er:'schlägt',x:{M:7}}),
+ strong('schließen','to close','schloss','geschlossen',{x:{M:7}}),
+ strong('schreien','to shout','schrie','geschrien',{x:{M:7}}),
+ strong('schweigen','to be silent','schwieg','geschwiegen',{x:{M:7}}),
+ weak('senden','to send',{M:7,pp:'gesendet'}),
+ strong('singen','to sing','sang','gesungen',{x:{M:7}}),
+ strong('sinken','to sink','sank','gesunken',{aux:'sein',x:{M:7}}),
+ irr('sollen','to be supposed to, shall','soll sollst soll sollen sollt sollen','sollte solltest sollte sollten solltet sollten','gesollt','haben',{t:'modal',M:7}),
+ strong('springen','to jump','sprang','gesprungen',{aux:'sein',x:{M:7}}),
+ strong('stehlen','to steal','stahl','gestohlen',{du:'stiehlst',er:'stiehlt',x:{M:7}}),
+ strong('sterben','to die','starb','gestorben',{du:'stirbst',er:'stirbt',aux:'sein',x:{M:7}}),
+ strong('treiben','to drive, to do (sport)','trieb','getrieben',{x:{M:7}}),
+ strong('treten','to step, to kick','trat','getreten',{du:'trittst',er:'tritt',x:{M:7}}),
+ irr('tun','to do','tue tust tut tun tut tun','tat tatest tat taten tatet taten','getan','haben',{M:7}),
+ strong('werfen','to throw','warf','geworfen',{du:'wirfst',er:'wirft',x:{M:7}}),
+ Object.assign({},ziehen,{M:7}),
+ strong('zwingen','to force','zwang','gezwungen',{x:{M:7}}),
+ S7('mit',bringenR,'to bring along','haben'),
+ S7('mit',nehmenR,'to take along','haben'),
+ S7('nach',denkenR,'to think about','haben'),
+ irr('verbringen','to spend (time)','verbringe verbringst verbringt verbringen verbringt verbringen','verbrachte verbrachtest verbrachte verbrachten verbrachtet verbrachten','verbracht','haben',{M:7}),
+ strong('erhalten','to receive','erhielt','erhalten',{du:'erhältst',er:'erhält',x:{M:7}}),
+ strong('erfinden','to invent','erfand','erfunden',{x:{M:7}}),
+ irr('erkennen','to recognise','erkenne erkennst erkennt erkennen erkennt erkennen','erkannte erkanntest erkannte erkannten erkanntet erkannten','erkannt','haben',{M:7}),
+ strong('erscheinen','to appear','erschien','erschienen',{aux:'sein',x:{M:7}}),
+ strong('gelingen','to succeed','gelang','gelungen',{aux:'sein',x:{M:7}}),
+ weak('gewöhnen','to get used (sich gewöhnen an)',{M:7,pp:'gewöhnt'}),
  sep('auf',stehen,'to get up','sein'),
  sep('ein',kaufen,'to shop','haben'),
  sep('an',rufen,'to phone','haben'),
@@ -1487,20 +1626,24 @@ const correctOf=q=>q.type==='type'?q.ans[0]:q.a;
 const fold=s=>s.toLowerCase().replace(/ä/g,'a').replace(/ö/g,'o').replace(/ü/g,'u').replace(/ß/g,'s');
 const plain=s=>s.replace(/\*+/g,'');
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-function hlHtml(html,q){const f=fold(q.trim());if(f.length<2)return html;
- return html.split(/(<[^>]+>|&[a-z]+;)/).map(part=>{if(part[0]==='<'||part[0]==='&')return part;const fp=fold(part);let out='',i=0,j;while((j=fp.indexOf(f,i))>=0){out+=part.slice(i,j)+'<mark>'+part.slice(j,j+f.length)+'</mark>';i=j+f.length}return out+part.slice(i)}).join('');}
+const rxEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+/* tolerant matcher: words may be separated by spaces, dots, dashes or the ellipsis sign, so "um zu" finds "um … zu" */
+function mkRx(q){const toks=fold(q.trim()).split(/[^a-z0-9]+/).filter(Boolean);if(toks.join('').length<2)return null;const re=new RegExp(toks.map(rxEsc).join('[^a-z0-9]{1,8}'),'g');re.multi=toks.length>1;return re;}
+function findRx(re,text){re.lastIndex=0;let m;while((m=re.exec(text))){if(!re.multi||m.index===0||!/[a-z0-9]/.test(text[m.index-1]))return{i:m.index,l:m[0].length};if(!m[0].length)re.lastIndex++}return null;}
+function hlHtml(html,q){const re=mkRx(q);if(!re)return html;
+ return html.split(/(<[^>]+>|&[a-z]+;)/).map(part=>{if(part[0]==='<'||part[0]==='&')return part;const fp=fold(part);let out='',i=0,m;re.lastIndex=0;while((m=re.exec(fp))){if(re.multi&&m.index>0&&/[a-z0-9]/.test(fp[m.index-1])){if(!m[0].length)re.lastIndex++;continue}out+=part.slice(i,m.index)+'<mark>'+part.slice(m.index,m.index+m[0].length)+'</mark>';i=m.index+m[0].length;if(!m[0].length)re.lastIndex++}return out+part.slice(i)}).join('');}
 let IDX=null;
 function buildIdx(){if(IDX)return IDX;IDX=[];MODS.forEach(m=>chaptersOf(m).forEach(c=>{const k=C[c.id];if(!k)return;IDX.push({id:c.id,m:m.id,lv:m.lv,title:c.title,kind:c.kind,paras:k.l.map(plain),words:k.w.map(x=>x.split('|'))})}));return IDX;}
 function snipHtml(p,i,len,q){const st=Math.max(0,i-70),en=Math.min(p.length,i+len+120);return hlHtml(esc((st>0?'… ':'')+p.slice(st,en)+(en<p.length?' …':'')),q);}
-function runSearch(q){const f=fold(q.trim());if(f.length<2)return null;
+function runSearch(q){const re=mkRx(q);if(!re)return null;
  const ch=[],words=[];
- buildIdx().forEach(e=>{let score=0;const sn=[];if(fold(e.title).indexOf(f)>=0)score+=5;
-  e.paras.forEach(p=>{const i=fold(p).indexOf(f);if(i>=0){score++;if(sn.length<3)sn.push(snipHtml(p,i,f.length,q))}});
+ buildIdx().forEach(e=>{let score=0;const sn=[];if(findRx(re,fold(e.title)))score+=5;
+  e.paras.forEach(p=>{const r=findRx(re,fold(p));if(r){score++;if(sn.length<3)sn.push(snipHtml(p,r.i,r.l,q))}});
   if(score)ch.push({e,score,sn});
-  e.words.forEach(w=>{if(fold(w[0]).indexOf(f)>=0||fold(w[1]).indexOf(f)>=0)words.push({e,de:w[0],en:w[1]})});});
+  e.words.forEach(w=>{if(findRx(re,fold(w[0]))||findRx(re,fold(w[1])))words.push({e,de:w[0],en:w[1]})});});
  ch.sort((a,b)=>b.score-a.score);
- const nouns=NOUNS.filter(n=>fold(n.w+' '+n.pl+' '+n.en).indexOf(f)>=0);
- const verbs=VERBS.filter(v=>fold(v.inf+' '+v.en+' '+v.pp+' '+v.pt[2]+' '+v.pr[2]).indexOf(f)>=0);
+ const nouns=NOUNS.filter(n=>findRx(re,fold(n.w+' '+n.pl+' '+n.en)));
+ const verbs=VERBS.filter(v=>findRx(re,fold(v.inf+' '+v.en+' '+v.pp+' '+v.pt[2]+' '+v.pr[2])));
  return{ch,words,nouns,verbs};}
 </script>
 
@@ -1524,7 +1667,7 @@ const load=()=>{try{const s=localStorage.getItem(KEY);if(s)return Object.assign(
 const save=s=>{try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}};
 const PASS=.6;
 const need=t=>Math.ceil(t*PASS);
-const MC=['#D99A00','#0E9AA7','#7C5CE0','#D6409F','#E8772E','#3E5C76'];
+const MC=['#D99A00','#0E9AA7','#7C5CE0','#D6409F','#E8772E','#3E5C76','#5B8C2A'];
 const lvl=xp=>Math.floor(Math.sqrt((xp||0)/25))+1;
 const SAY=t=>{try{const u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}};
 const sayClick=e=>{const t=e.target.closest&&e.target.closest('.say');if(t)SAY(t.textContent)};
@@ -1611,7 +1754,7 @@ function Learn(a){
  useEffect(()=>{window.scrollTo(0,0)},[mid,cid,mode]);
  useEffect(()=>{if(init&&init.q&&cid&&mode==='read'){const el=document.querySelector('#lsn mark');if(el)el.scrollIntoView({block:'center'})}},[cid,mode]);
  if(!M){
-  return div(null,h1('title','Lessons'),p('lead','Six modules from A1 to B1. Every topic and grammar point is a chapter with a lesson, vocabulary and a quiz.'),
+  return div(null,h1('title','Lessons'),p('lead','Six core modules from A1 to B1, plus a Bonus module with extra grammar and everyday topics. Every topic and grammar point is a chapter with a lesson, vocabulary and a quiz.'),
    div('mods',...MODS.map(m=>{const ch=chaptersOf(m),d=ch.filter(c=>P.ch[c.id]&&P.ch[c.id].done).length;
     return button({key:m.id,className:'mod',style:{'--mc':MC[m.id-1]},onClick:()=>setMid(m.id)},div('mlv',m.lv),div('mname',m.name,span(ready(m)?'tag go':'tag',ready(m)?'Full lessons':'Outline only')),bar(d/ch.length),div('small muted',d+' of '+ch.length+' chapters done'))})));
  }
@@ -1771,9 +1914,9 @@ function Search(a){
  const more=(n,max)=>n>max?p('small muted','+ '+(n-max)+' more. Type a longer search to narrow it down.'):null;
  const qt=q.trim();
  return div(null,h1('title','Search'),
-  p('lead','Look up any grammar point, word, noun or verb across all six modules. Umlauts are optional: “uber” also finds “über”.'),
+  p('lead','Look up any grammar point, word, noun or verb across all modules. Umlauts are optional and gaps are ignored: “uber” finds “über” and “um zu” finds “um … zu”.'),
   h('input',{ref,className:'inp srch',value:q,placeholder:'Search, for example: damit',autoCapitalize:'off',spellCheck:false,'aria-label':'Search',onChange:e=>a.setQ(e.target.value)}),
-  !qt?div({className:'row',style:{marginTop:14}},span('small muted','Try:'),...['damit','weil','Konjunktiv II','Perfekt','Genitiv','obwohl','nachdem','Passiv'].map(t=>button({key:t,className:'btn',onClick:()=>a.setQ(t)},t)))
+  !qt?div({className:'row',style:{marginTop:14}},span('small muted','Try:'),...['damit','um zu','weil','Konjunktiv II','Perfekt','Genitiv','obwohl','nachdem','Passiv','lassen'].map(t=>button({key:t,className:'btn',onClick:()=>a.setQ(t)},t)))
   :!R?p({className:'muted',style:{marginTop:14}},'Type at least two letters.')
   :!tot?p({className:'muted',style:{marginTop:14}},'No results for “'+qt+'”. Try a shorter word or the English meaning.')
   :div(null,
