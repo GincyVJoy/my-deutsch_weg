@@ -199,6 +199,11 @@ mark{background:color-mix(in srgb,var(--gold) 55%,transparent);color:inherit;bor
 .arts .am{background:var(--mt);color:var(--m)}
 .arts .af{background:var(--ft);color:var(--f)}
 .arts .an{background:var(--nt);color:var(--n)}
+.rem{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 0;border-bottom:1px solid var(--ln)}
+.rem:last-of-type{border-bottom:0}
+.rem .rt{flex:1;min-width:200px}
+.rem.due .rt{font-weight:700}
+.rem.due .rt::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--f);margin-right:9px}
 @media (max-width:760px){.h3row svg{display:none}.hero3{padding:22px}}
 @media (max-width:760px){
  .app{display:block}
@@ -2314,6 +2319,36 @@ function buildSkillsExam(level){
  out.meta=cf;out.meta.level=level;
  return out;}
 
+/* ===== learning sets, check-ups and reviews ===== */
+const INTV=[0,1,2,4,8,16];
+const nounQFor=(n,kind)=>{kind=kind||pick(n.pl!=='–'?['art','pl','en']:['art','en']);
+ if(kind==='art')return{type:'mc',q:'Which article?',big:n.w,sub:n.en,a:n.art,opts:['der','die','das'],cls:{der:'art-m',die:'art-f',das:'art-n'},track:['nn',n.k]};
+ if(kind==='pl')return{type:'type',q:'Write the plural',big:n.art+' '+n.w,sub:n.en,ans:[n.pl,'die '+n.pl],track:['nn',n.k]};
+ return Object.assign(mc('What does “'+n.w+'” mean?',n.en,shuffle(NOUNS.filter(x=>x.en!==n.en)).slice(0,3).map(x=>x.en)),{big:n.art+' '+n.w,track:['nn',n.k]});};
+const pickVerbBatch=(P,n)=>{const now=Date.now(),vc=P.vc||{};
+ const due=VERBS.filter(v=>vc[v.inf]&&vc[v.inf].due<=now),fresh=VERBS.filter(v=>!vc[v.inf]).sort((x,y)=>x.M-y.M);
+ const d=shuffle(due).slice(0,n);return d.concat(fresh.slice(0,n-d.length)).map(v=>v.inf);};
+function reviewPool(P){const now=Date.now(),week=now-7*864e5,recent=new Set();
+ (P.ls||[]).forEach(e=>{if(e.at>=week)e.keys.forEach(k=>recent.add(e.kind+':'+k))});
+ const vc=P.vc||{},vb=P.vb||{};
+ const nk=Object.keys(P.nn||{}).filter(k=>NBY[k]);
+ const vk=Array.from(new Set(Object.keys(vc).concat(Object.keys(vb)))).filter(k=>VBY[k]);
+ const nPri=nk.filter(k=>P.nn[k].due<=now||(P.nn[k].bad||0)>(P.nn[k].ok||0)||recent.has('noun:'+k));
+ const vPri=vk.filter(k=>(vc[k]&&vc[k].due<=now)||(vb[k]&&vb[k].bad>vb[k].ok)||recent.has('verb:'+k));
+ return{nouns:nPri.length>=6?nPri:nk,verbs:vPri.length>=6?vPri:vk,nTotal:nk.length,vTotal:vk.length};}
+const buildWeekly=P=>{const R=reviewPool(P);return shuffle(shuffle(R.nouns).slice(0,10).map(k=>nounQFor(NBY[k])).concat(shuffle(R.verbs).slice(0,10).map(k=>verbQ(VBY[k],'Mixed'))));};
+const buildModuleReview=mod=>shuffle(shuffle(NOUNS.filter(n=>n.m===mod)).slice(0,10).map(n=>nounQFor(n)).concat(shuffle(VERBS.filter(v=>v.M===mod)).slice(0,10).map(v=>verbQ(v,'Mixed'))));
+const moduleDone=(P,m)=>chaptersOf(m).every(c=>P.ch[c.id]&&P.ch[c.id].done);
+function weeklyInfo(P){const R=reviewPool(P),learned=R.nTotal+R.vTotal,last=(P.rv&&P.rv.weekly)||0,days=last?Math.floor((Date.now()-last)/864e5):null;
+ return{learned,days,ok:learned>=5,due:learned>=5&&(days===null||days>=7)};}
+function applyCheck(s,kind,keys,res){const now=Date.now();s.vc=s.vc||{};s.ls=s.ls||[];
+ res.forEach(x=>{const t=x.q.track;if(!t)return;const tb=t[0]==='nn'?s.nn:s.vc;const r=tb[t[1]]||{box:0,ok:0,bad:0};
+  if(x.ok){r.ok=(r.ok||0)+1;r.box=Math.min(5,Math.max(1,r.box||0)+1);r.due=now+INTV[r.box]*864e5}else{r.bad=(r.bad||0)+1;r.box=1;r.due=now}
+  tb[t[1]]=r;
+  if(t[0]==='vb'){const b=s.vb[t[1]]||{ok:0,bad:0};if(x.ok)b.ok++;else b.bad++;s.vb[t[1]]=b}});
+ const ok=res.filter(x=>x.ok).length;s.xp=(s.xp||0)+ok*3;
+ if(kind==='noun'||kind==='verb'){s.ls.unshift({at:now,kind,keys,ok,tot:res.length});s.ls=s.ls.slice(0,60)}}
+
 const wordScore=(t,hd)=>{const tw=normA(t).split(' ').filter(Boolean),hw=normA(hd).split(' ');return tw.length?tw.filter(w=>hw.indexOf(w)>=0).length/tw.length:0};
 const keyScore=(q,hd)=>{const hh=normA(hd);return q.keys.filter(k=>hh.indexOf(normA(k))>=0).length/q.keys.length};
 function evalAns(q,g){
@@ -2367,7 +2402,7 @@ const para=s=>h('p',{className:'lt',dangerouslySetInnerHTML:{__html:md(s)}});
 const Art=g=>span('art art-'+g,{m:'der',f:'die',n:'das'}[g]);
 const bar=v=>div('bar',div({className:'barf',style:{width:Math.round(v*100)+'%'}}));
 const KEY='deutschweg.v1';
-const blank=()=>({ch:{},nn:{},vb:{},ex:[],days:[],xp:0,sk:{}});
+const blank=()=>({ch:{},nn:{},vb:{},ex:[],days:[],xp:0,sk:{},vc:{},ls:[],rv:{weekly:0,mods:{}}});
 const load=()=>{try{const s=localStorage.getItem(KEY);if(s)return Object.assign(blank(),JSON.parse(s))}catch(e){}return blank()};
 const save=s=>{try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}};
 const PASS=.6;
@@ -2536,13 +2571,38 @@ function Learn(a){
    button({className:'btn pri big',onClick:()=>{setSk(null);setQs(chapterQuiz(cid));setMode('quiz')}},'Start chapter quiz')));
 }
 
+/* ---- check-up runner and 10-verb learning rounds ---- */
+function Checkup(a){const [res,setRes]=useState(null);
+ if(res)return div(null,h(Results,{res,xp:a.xpFor?a.xpFor(res):res.filter(x=>x.ok).length*3,passText:a.passText||'Nice work.',failText:a.failText||'The words you missed come back for review soon.',actions:a.actions}));
+ return div(null,h2(null,a.title),a.hint?p('hint',a.hint):null,h(Quiz,{key:a.k||'ck',qs:a.qs,mode:'practice',onDone:r=>{setRes(r);if(a.onDone)a.onDone(r)}}));}
+function LearnVerbs(a){const P=a.P;
+ const [sess,setSess]=useState(0),[queue,setQueue]=useState([]),[rev,setRev]=useState(false),[batch,setBatch]=useState([]),[chk,setChk]=useState(false);
+ useEffect(()=>{const keys=pickVerbBatch(P,10);setQueue(keys);setBatch(keys);setRev(false);setChk(false)},[sess]);
+ const v=queue.length?VBY[queue[0]]:null;
+ const known=()=>{a.upd(s=>{s.vc=s.vc||{};const r=s.vc[v.inf]||{box:0,ok:0,bad:0};r.box=Math.min(5,r.box+1);r.ok++;r.due=Date.now()+INTV[r.box]*864e5;s.vc[v.inf]=r;s.xp=(s.xp||0)+3});setQueue(q=>q.slice(1));setRev(false)};
+ const again=()=>{a.upd(s=>{s.vc=s.vc||{};const r=s.vc[v.inf]||{box:0,ok:0,bad:0};r.box=1;r.bad++;r.due=Date.now();s.vc[v.inf]=r});setQueue(q=>q.slice(1).concat(q[0]));setRev(false)};
+ const vc=P.vc||{},mastered=Object.keys(vc).filter(k=>vc[k].box>=4).length;
+ const kind={regular:'regular verb',irregular:'irregular verb',modal:'modal verb',separable:'separable verb'};
+ return div(null,
+  div({className:'row',style:{marginBottom:14}},span('small muted','Ten verbs per round: say the three forms, then tap to check. '+mastered+' of '+VERBS.length+' verbs mastered.')),
+  v?div(null,
+    button({className:'fc',onClick:()=>setRev(true),'aria-label':rev?'Answer shown':'Show answer'},
+     div('w',v.inf),
+     div('muted',v.en+' – '+kind[v.t]),
+     rev?div(null,div(null,'Präsens: er/sie/es '+v.pr[2]),div(null,'Präteritum: er/sie/es '+v.pt[2]),div(null,'Perfekt: er/sie/es '+AUX[v.aux][2]+' '+v.pp)):div('small muted','Tap to show Präsens, Präteritum and Perfekt')),
+    div({className:'row',style:{marginTop:14}},rev?button({className:'btn',onClick:again},'Again'):null,rev?button({className:'btn pri',onClick:known},'Got it'):button({className:'btn',onClick:()=>setRev(true)},'Show forms'),button({className:'btn',onClick:()=>SAY(v.inf)},'🔊'),span('small muted',queue.length+' left in this round')))
+  :chk?h(Checkup,{key:'vk'+sess,title:'Check-up: '+batch.length+' verbs',hint:'Write the form that is asked for. Verbs you miss come back sooner.',qs:batch.map(k=>verbQ(VBY[k],'Mixed')),onDone:r=>a.upd(s=>applyCheck(s,'verb',batch,r)),actions:[button({key:'n',className:'btn pri',onClick:()=>setSess(x=>x+1)},'Start another round')]})
+  :batch.length?div('panel',h3(null,'Round complete'),p('muted','You went through '+batch.length+' verbs. Take the short check-up now: it asks for a Präsens, Präteritum or Perfekt form of each verb, and the ones you miss come back sooner.'),div('row',button({className:'btn pri',onClick:()=>setChk(true)},'Start check-up'),button({className:'btn',onClick:()=>setSess(x=>x+1)},'Skip, next round')))
+  :div('panel',h3(null,'Nothing to learn right now'),p('muted','All verbs have been introduced and none are due. Come back tomorrow.'),button({className:'btn',onClick:()=>setSess(x=>x+1)},'Check again')));
+}
+
 /* ===================== NOMEN ===================== */
 function Cards(a){
  const P=a.P;
- const [topic,setTopic]=useState('All'),[sess,setSess]=useState(0),[queue,setQueue]=useState([]),[rev,setRev]=useState(false);
+ const [topic,setTopic]=useState('All'),[sess,setSess]=useState(0),[queue,setQueue]=useState([]),[rev,setRev]=useState(false),[batch,setBatch]=useState([]),[chk,setChk]=useState(false);
  useEffect(()=>{const now=Date.now(),pool=NOUNS.filter(n=>topic==='All'||n.tp===topic);
   const due=pool.filter(n=>P.nn[n.k]&&P.nn[n.k].due<=now),fresh=pool.filter(n=>!P.nn[n.k]);
-  setQueue(shuffle(due).concat(shuffle(fresh).slice(0,10)).map(n=>n.k));setRev(false)},[topic,sess]);
+  const keys=shuffle(due).concat(fresh.slice(0,10)).map(n=>n.k);setQueue(keys);setBatch(keys);setRev(false);setChk(false)},[topic,sess]);
  const n=queue.length?NBY[queue[0]]:null;
  const INT=[0,1,2,4,8,16];
  const known=()=>{a.upd(s=>{const r=s.nn[n.k]||{box:0,ok:0,bad:0};r.box=Math.min(5,r.box+1);r.ok++;r.due=Date.now()+INT[r.box]*864e5;s.nn[n.k]=r;s.xp=(s.xp||0)+3});setQueue(q=>q.slice(1));setRev(false)};
@@ -2556,7 +2616,9 @@ function Cards(a){
      rev?div(null,'Plural: '+(n.pl==='–'?'no plural':'die '+n.pl)):div('small muted','Which article? Tap to reveal'),
      rev?div('muted',n.en):div('small muted',n.tp)),
     div({className:'row',style:{marginTop:14}},rev?button({className:'btn',onClick:again},'Again'):null,rev?button({className:'btn pri',onClick:known},'Got it'):button({className:'btn',onClick:()=>setRev(true)},'Show answer'),span('small muted',queue.length+' left in this round')))
-  :div('panel',h3(null,'Round complete'),p('muted','Cards you got right come back after 1, 2, 4, 8 and 16 days. New cards appear ten at a time.'),button({className:'btn pri',onClick:()=>setSess(s=>s+1)},'Start another round')));
+  :chk?h(Checkup,{key:'nk'+sess,title:'Check-up: '+batch.length+' nouns',hint:'Answer from memory: article, plural or meaning. Words you miss come back sooner.',qs:batch.map(k=>nounQFor(NBY[k])),onDone:r=>a.upd(s=>applyCheck(s,'noun',batch,r)),actions:[button({key:'n',className:'btn pri',onClick:()=>setSess(x=>x+1)},'Start another round')]})
+  :batch.length?div('panel',h3(null,'Round complete'),p('muted','You went through '+batch.length+' nouns. Take the short check-up now: it tests the article, the plural or the meaning of each one, and the words you miss come back sooner.'),div('row',button({className:'btn pri',onClick:()=>setChk(true)},'Start check-up'),button({className:'btn',onClick:()=>setSess(x=>x+1)},'Skip, next round')))
+  :div('panel',h3(null,'Nothing to learn here'),p('muted','All nouns in this topic have been introduced and none are due. Try another topic.'),button({className:'btn',onClick:()=>setSess(x=>x+1)},'Check again')));
 }
 function WordList(){
  const [topic,setTopic]=useState('All'),[qy,setQy]=useState('');
@@ -2568,7 +2630,7 @@ function WordList(){
 function Nouns(a){
  const [tab,setTab]=useState('cards');
  const track=(q,ok)=>{if(!q.track)return;a.upd(s=>{const r=s.nn[q.track[1]]||{box:0,ok:0,bad:0,due:Date.now()};if(ok){r.ok++;s.xp=(s.xp||0)+2}else r.bad++;s.nn[q.track[1]]=r})};
- const T=[['cards','Flashcards'],['art','Article quiz'],['pl','Plural quiz'],['list','Word list']];
+ const T=[['cards','Learn 10 + check-up'],['art','Article quiz'],['pl','Plural quiz'],['list','Word list']];
  return div(null,h1('title','Nomen'),p('lead','Always learn a noun with its article and plural. '+NOUNS.length+' nouns, colour-coded: der blue, die red, das green.'),
   div('tabs',...T.map(t=>button({key:t[0],className:tab===t[0]?'on':'',onClick:()=>setTab(t[0])},t[1]))),
   tab==='cards'?h(Cards,{P:a.P,upd:a.upd}):tab==='art'?h(Drill,{key:'art',gen:()=>nounArtQ(),onAnswer:track,dep:'art'}):tab==='pl'?h(Drill,{key:'pl',gen:()=>nounPlQ(),onAnswer:track,dep:'pl'}):h(WordList));
@@ -2584,14 +2646,14 @@ function VerbTable(a){const v=a.v;
   v.t==='separable'?div('note','The prefix “'+v.pre+'” splits off in Präsens and Präteritum and moves to the end. In the Perfekt it joins the Partizip II: '+v.pp+'.'):null);
 }
 function Verbs(a){
- const [tab,setTab]=useState('browse'),[sel,setSel]=useState(a.sel||'sein'),[f,setF]=useState('');
+ const [tab,setTab]=useState(a.sel?'browse':'learn'),[sel,setSel]=useState(a.sel||'sein'),[f,setF]=useState('');
  const [tense,setTense]=useState('Mixed'),[only,setOnly]=useState('all');
  const track=(q,ok)=>{if(!q.track)return;a.upd(s=>{const r=s.vb[q.track[1]]||{ok:0,bad:0};if(ok){r.ok++;s.xp=(s.xp||0)+2}else r.bad++;s.vb[q.track[1]]=r})};
  const list=VERBS.filter(v=>!f||norm(v.inf+' '+v.en).indexOf(norm(f))>=0);
  const pool=VERBS.filter(v=>only==='all'||v.t!=='regular');
  return div(null,h1('title','Verben'),p('lead','Every verb with Präsens, Präteritum and Perfekt (helper verb plus Partizip II). '+VERBS.length+' verbs.'),
-  div('tabs',button({className:tab==='browse'?'on':'',onClick:()=>setTab('browse')},'Conjugation tables'),button({className:tab==='drill'?'on':'',onClick:()=>setTab('drill')},'Practice')),
-  tab==='browse'?div(null,h('input',{className:'inp',style:{maxWidth:280},placeholder:'Search verbs',value:f,onChange:e=>setF(e.target.value),'aria-label':'Search verbs'}),
+  div('tabs',button({className:tab==='learn'?'on':'',onClick:()=>setTab('learn')},'Learn 10 + check-up'),button({className:tab==='browse'?'on':'',onClick:()=>setTab('browse')},'Conjugation tables'),button({className:tab==='drill'?'on':'',onClick:()=>setTab('drill')},'Practice')),
+  tab==='learn'?h(LearnVerbs,{P:a.P,upd:a.upd}):tab==='browse'?div(null,h('input',{className:'inp',style:{maxWidth:280},placeholder:'Search verbs',value:f,onChange:e=>setF(e.target.value),'aria-label':'Search verbs'}),
     div('vlist',...list.map(v=>button({key:v.inf,className:sel===v.inf?'on':'',onClick:()=>setSel(v.inf)},v.inf))),
     h(VerbTable,{v:VBY[sel]}))
   :div(null,
@@ -2637,11 +2699,15 @@ function SkillsExam(a){
 /* ===================== EXAMS ===================== */
 function Exams(a){
  const P=a.P;
- const [run,setRun]=useState(null),[res,setRes]=useState(null),[sx,setSx]=useState(null);
+ const [run,setRun]=useState(null),[res,setRes]=useState(null),[sx,setSx]=useState(null),[rv,setRv]=useState(null);
  const mids=MODS.filter(ready).map(m=>m.id);
+ const wk=weeklyInfo(P);
  const start=(title,n,ids,limit)=>{setRes(null);setRun({title,limit,qs:buildExam(ids,n),k:Date.now()})};
  const track=(q,ok)=>{if(!q.track)return;a.upd(s=>{const t=q.track[0],r=s[t][q.track[1]]||(t==='nn'?{box:0,ok:0,bad:0,due:Date.now()}:{ok:0,bad:0});if(ok)r.ok++;else r.bad++;s[t][q.track[1]]=r})};
  if(sx)return h(SkillsExam,{key:sx,level:sx,upd:a.upd,onExit:()=>setSx(null)});
+ if(rv)return div(null,button({className:'back',onClick:()=>setRv(null)},'‹ Exams'),h(Checkup,{key:rv.k,title:rv.title,hint:rv.hint,qs:rv.qs,xpFor:r=>{const ok=r.filter(x=>x.ok).length;return ok*3+(ok>=need(r.length)?(rv.kind==='weekly'?30:50):0)},
+  onDone:r=>{const ok=r.filter(x=>x.ok).length,pass=ok>=need(r.length);a.upd(s=>{applyCheck(s,'review',[],r);s.rv=s.rv||{weekly:0,mods:{}};if(rv.kind==='weekly')s.rv.weekly=Date.now();else{s.rv.mods=s.rv.mods||{};s.rv.mods[rv.mod]={at:Date.now(),sc:ok,tot:r.length}}if(pass)s.xp=(s.xp||0)+(rv.kind==='weekly'?30:50)})},
+  actions:[button({key:'b',className:'btn pri',onClick:()=>setRv(null)},'Back to exams')]}));
  if(run&&!res)return div(null,h1('title',run.title),h(Quiz,{key:run.k,qs:run.qs,mode:'exam',limit:run.limit,onAnswer:track,onDone:r=>{const ok=r.filter(x=>x.ok).length;a.upd(s=>{s.ex.unshift({at:Date.now(),title:run.title,sc:ok,tot:r.length,pass:ok>=need(r.length)});s.xp=(s.xp||0)+ok*3+(ok>=need(r.length)?50:0);s.ex=s.ex.slice(0,30)});setRes(r)}}));
  if(run&&res)return div(null,h1('title',run.title),h(Results,{res,xp:res.filter(x=>x.ok).length*3+(res.filter(x=>x.ok).length>=need(res.length)?50:0),passText:'Well done.',failText:'Review the chapters for the questions you missed, then try again.',actions:[button({key:'a',className:'btn pri',onClick:()=>setRun(null)},'Back to exams')]}));
  const lv=[['A1 level test','Modules 1–2',[1,2]],['A2 level test','Modules 3–4',[3,4]],['B1 level test','Modules 5–6 (DTZ B1 practice)',[5,6]]];
@@ -2649,6 +2715,11 @@ function Exams(a){
   div('two',
    div('panel',h3(null,'End-of-day test'),p('muted','10 mixed questions from everything available. Take it at the end of each study day.'),button({className:'btn pri',onClick:()=>start('End-of-day test',10,mids)},'Start daily test')),
    div('panel',h3(null,'Your results'),...(P.ex.length?P.ex.slice(0,5).map((x,i)=>div({className:'hist',key:i},span('small',x.title),span('small',x.sc+'/'+x.tot+(x.pass?' passed':' not passed')))):[p('muted small','No exams taken yet.')]))),
+  h3({style:{margin:'18px 0 4px'}},'Reviews: keep your words fresh'),
+  p({className:'small muted',style:{margin:'0 0 10px'}},'Short mixed quizzes on the nouns and verbs you have already met. Do the weekly review once a week, and a module review when you finish a module.'),
+  div('mods',
+   div({className:'panel'},h3(null,'Weekly review'),p('small muted',!wk.ok?'Learn at least five nouns or verbs first.':(wk.days===null?'Not done yet. Ready when you are.':(wk.due?'Due now: last done '+wk.days+' days ago.':'Done '+wk.days+' day'+(wk.days===1?'':'s')+' ago. Next one in '+(7-wk.days)+' days.'))),button({className:'btn'+(wk.due?' pri':''),disabled:!wk.ok,onClick:()=>setRv({k:Date.now(),title:'Weekly review',hint:'Up to 10 nouns and 10 verbs you learned or missed recently.',qs:buildWeekly(P),kind:'weekly'})},wk.ok?'Start weekly review':'Not available yet')),
+   ...MODS.filter(ready).map(m=>{const done=moduleDone(P,m),r=P.rv&&P.rv.mods&&P.rv.mods[m.id];return div({key:m.id,className:'panel'},div('mlv',m.lv),p('small muted',done?(r?'Last module review: '+r.sc+' / '+r.tot:'Module complete. Your review is ready.'):'Finish all chapters of this module to unlock the review.'),button({className:'btn'+(done&&!r?' pri':''),disabled:!done,onClick:()=>setRv({k:Date.now(),title:m.lv+' module review',hint:'Nouns and verbs from this module.',qs:buildModuleReview(m.id),kind:'module',mod:m.id})},done?(r?'Review again':'Start module review'):'Locked'))})),
   h3({style:{margin:'18px 0 4px'}},'Skills exams (Goethe style)'),
   p({className:'small muted',style:{margin:'0 0 10px'}},'Four sections like the Goethe exams: Hören, Lesen, Schreiben and Sprechen, each scaled to 25 points. Pass mark 60%. Practice only, not an official exam.'),
   div('mods',...[['A1','A1 skills exam','Uses the A1.1 and A1.2 skills practice'],['A2','A2 skills exam','Uses the A2.1 and A2.2 skills practice'],['B1','B1 skills exam','Uses the B1.1 and B1.2 skills practice, each section scored separately']].map(x=>{const ok=skReady(x[0]);return div({key:x[0],className:'panel'},h3(null,x[1]),p('small muted',ok?x[2]:'Skills practice for this level is not available yet'),button({className:'btn'+(ok?' pri':''),disabled:!ok,onClick:()=>setSx(x[0])},ok?'Start skills exam':'Not available yet'))})),
@@ -2667,6 +2738,8 @@ function Home(a){
  const weakL=Object.keys(P.nn).map(k=>({k:NBY[k]?NBY[k].art+' '+k:k,kind:'Nomen',bad:P.nn[k].bad,ok:P.nn[k].ok}))
   .concat(Object.keys(P.vb).map(k=>({k,kind:'Verb',bad:P.vb[k].bad,ok:P.vb[k].ok}))).filter(x=>x.bad>0).sort((x,y)=>(y.bad-y.ok)-(x.bad-x.ok)).slice(0,6);
  const [sure,setSure]=useState(false);
+ const wk=weeklyInfo(P),mrev=MODS.filter(m=>ready(m)&&moduleDone(P,m)&&!(P.rv&&P.rv.mods&&P.rv.mods[m.id]));
+ const nNew=Math.min(10,NOUNS.filter(n=>!P.nn[n.k]).length),vcc=P.vc||{},vNew=Math.min(10,VERBS.filter(v=>!vcc[v.inf]).length),vDue=VERBS.filter(v=>vcc[v.inf]&&vcc[v.inf].due<=now).length;
  const mastered=NOUNS.filter(n=>P.nn[n.k]&&P.nn[n.k].box>=4).length,vtr=Object.keys(P.vb).length,skd=Object.keys(P.sk||{}).reduce((n,k)=>n+Object.keys(P.sk[k]).filter(x=>P.sk[k][x]>=PASS).length,0);
  return div(null,
   div('hero3',
@@ -2679,6 +2752,13 @@ function Home(a){
    div('panel',h3(null,'Practice today'),
     p({style:{margin:'0 0 10px'}},due+' noun cards due, '+fresh+' new'),
     div('row',button({className:'btn',onClick:()=>a.go('nouns')},'Nomen'),button({className:'btn',onClick:()=>a.go('verbs')},'Verben'),button({className:'btn',onClick:()=>a.go('exams')},'Daily test')))),
+  div('panel',h3(null,'Your review plan'),
+   div({className:'rem'},span('rt',due+' noun cards due, '+nNew+' new nouns ready'),button({className:'btn',onClick:()=>a.go('nouns')},'Learn 10 nouns')),
+   div({className:'rem'},span('rt',vDue+' verbs due, '+vNew+' new verbs ready'),button({className:'btn',onClick:()=>a.go('verbs')},'Learn 10 verbs')),
+   div({className:'rem'+(wk.due?' due':'')},span('rt',!wk.ok?'Weekly review: learn a few words first':(wk.due?'Your weekly review is due':'Weekly review done '+wk.days+' day'+(wk.days===1?'':'s')+' ago')),button({className:'btn'+(wk.due?' pri':''),disabled:!wk.ok,onClick:()=>a.go('exams')},'Open reviews')),
+   ...mrev.map(m=>div({key:m.id,className:'rem due'},span('rt','You finished '+m.lv+'. Take the module review.'),button({className:'btn pri',onClick:()=>a.go('exams')},'Open reviews'))),
+   p({className:'small muted',style:{margin:'10px 0 0'}},'Reminders appear when you open the app. The app cannot send notifications while it is closed.')),
+  div({style:{height:16}}),
   div('panel',h3(null,'Progress by module'),...MODS.map(m=>{const ch=chaptersOf(m),d=ch.filter(c=>P.ch[c.id]&&P.ch[c.id].done).length;return div({key:m.id,style:{margin:'12px 0'}},div({className:'row',style:{justifyContent:'space-between',marginBottom:5}},span({style:{fontWeight:600}},m.lv+' '+m.name),span('small muted',d+' / '+ch.length)),bar(d/ch.length))}),
    p({className:'small muted',style:{marginTop:12}},mastered+' nouns mastered, '+vtr+' verbs practised, '+P.ex.length+' exams taken, '+skd+' skill sets passed.')),
   div({className:'two',style:{marginTop:16}},
@@ -2729,7 +2809,7 @@ function App(){
    div('streak',h('strong',null,st+(st===1?' day':' days')),'study streak',div('xp','Level '+lvl(P.xp)+' · '+(P.xp||0)+' XP'))),
   h('main',{className:'main'},
    div('mtop',Logo(30),span({style:{marginLeft:8}},'Deutsch Weg')),
-   view==='home'?h(Home,{P,go,open,reset,search}):view==='learn'?h(Learn,{key:init?init.k:'x',P,upd,init}):view==='search'?h(Search,{q:sq,setQ:setSq,open,openVerb}):view==='nouns'?h(Nouns,{P,upd}):view==='verbs'?h(Verbs,{key:vsel||'v',upd,sel:vsel}):h(Exams,{P,upd})));
+   view==='home'?h(Home,{P,go,open,reset,search}):view==='learn'?h(Learn,{key:init?init.k:'x',P,upd,init}):view==='search'?h(Search,{q:sq,setQ:setSq,open,openVerb}):view==='nouns'?h(Nouns,{P,upd}):view==='verbs'?h(Verbs,{key:vsel||'v',P,upd,sel:vsel}):h(Exams,{P,upd})));
 }
 ReactDOM.createRoot(document.getElementById('root')).render(h(App));
 })();
